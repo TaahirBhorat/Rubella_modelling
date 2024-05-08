@@ -39,8 +39,8 @@ rubella_model <- function(time, state, parameters) {
       # Compartment Transitions
       dM[a] <- -da[a] * M[a] - mu[a] * M[a] + aging_in_M - aging_rate[a] * M[a]
       dS[a] <- da[a] * M[a] - phi[a] * (1 - va[a]) * S[a] - mu[a] * S[a] + aging_in_S - aging_rate[a] * S[a] - va[a] * S[a]
-      dI[a] <- phi[a] * (1 - va[a]) * S[a] - (gamma[a] + mu[a]) * I[a] + aging_in_I - aging_rate[a] * I[a]
-      dR[a] <- gamma[a] * I[a] - mu[a] * R[a] + aging_in_R - aging_rate[a] * R[a]
+      dI[a] <- phi[a] * (1 - va[a]) * S[a] - (gamm[a] + mu[a]) * I[a] + aging_in_I - aging_rate[a] * I[a]
+      dR[a] <- gamm[a] * I[a] - mu[a] * R[a] + aging_in_R - aging_rate[a] * R[a]
       dV[a] <- va[a] * S[a] - mu[a] * V[a] + aging_in_V - aging_rate[a] * V[a]
     }
     
@@ -54,7 +54,7 @@ initialize_parameters <- function(n_age) {
     beta = matrix(runif(n_age * n_age, min = 0.01, max = 0.05), nrow = n_age, ncol = n_age),
     da = rep(0.1, n_age),
     va = rep(0.05, n_age),
-    gamma = rep(0.1, n_age),
+    gamm = rep(0.1, n_age),
     mu = rep(0.01, n_age),
     aging_rate = rep(1/12, n_age),
     n_age = n_age
@@ -91,3 +91,4 @@ ggplot(data = results_long, aes(x = time, y = value, color = variable)) +
   geom_line() +
   labs(title = "Rubella Model with Accurate Transitions", x = "Time (days)", y = "Population", color = "Compartment") +
   theme_minimal()
+
